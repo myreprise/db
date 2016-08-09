@@ -4,29 +4,41 @@
 
 <head>
     <meta charset="utf-8">
+    
     <title>TAM R&amp;P Project Database</title>
+
     <meta name="description" content="An example demonstrating Google Map integration with MEAN Apps">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- CSS -->
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="style.css"/>
+
     <!-- Holder JS -->
     <script src="../bower_components/holderjs/holder.js"></script>
+
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAS50GBAU3ShS740nt4-KrbvUqjYiEk60s"></script>
+
     <!-- Modernizr -->
     <script src="../bower_components/modernizr/bin/modernizr"></script>
+
     <!-- JS Source -->
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/jquery-sidebar/src/jquery.sidebar.min.js"></script>
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-route/angular-route.js"></script>
     <script src="../bower_components/angularjs-geolocation/dist/angularjs-geolocation.min.js"></script>
+
     <!-- Angular Scripts -->
     <script src="js/app.js"></script>
     <script src="js/addCtrl.js"></script>
     <script src="js/gservice.js"></script>
+    <script src="js/queryCtrl.js"></script>
+
     <!-- Personal Scripts -->
     <script src="js/script.js"></script>
+
 </head>
 
 <body ng-controller="addCtrl">
@@ -47,30 +59,10 @@
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
+
     <div class="container">
-      <div id="title-bar">
-        <h3>Search database</h3>
-      </div>
-      <div class="panel-body" id="search_body">
-        <div class="col-md-5">
+      <h1>First container</h1>  
 
-        <form name="queryForm" novalidate>
-          <div class="form-group">
-              <label for="username">Name <span class="badge">All fields required</span></label>
-              <input type="text" class="form-control" id="username" placeholder="project name" ng-model="formData.name" required>
-          </div>
-          <div class="form-group">
-              <label for="language">City</label>
-              <input type="text" class="form-control" id="language" placeholder="beijing" ng-model="formData.city" required>
-          </div>
-
-          <!-- Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.  -->
-          <button type="submit" class="btn btn-danger btn-block" ng-click="createProject()" ng-disabled="addForm.$invalid">Search</button>
-
-        </form>
-
-        </div>
-      </div>
     </div>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -78,58 +70,60 @@
       <!--  <div id="map" style="width: 100%; height: 600px"></div>-->
     </div> <!-- end of jumbotron -->
 
-
     <!-- FORM SUBMISSION -->
-    <div class="container">
+    <div class="container" ng-controller="addCtrl">
+    <h1>Second Container</h1>
+
       <div class="row">
 
-<!-- Add Project Form -->
-<div class="col-md-12">
+        <!-- Add Project Form -->
+        <div class="col-md-12">
 
-    <!-- Creates Main Panel -->
-    <div class="panel panel-default">
+            <!-- Creates Main Panel -->
+            <div class="panel panel-default">
 
-        <!-- Panel Title -->
-        <div class="panel-heading">
-            <h2 class="panel-title text-center">New Project <span class="glyphicon glyphicon-map-marker"></span></h2>
+                <!-- Panel Title -->
+                <div class="panel-heading">
+                    <h2 class="panel-title text-center">New Project <span class="glyphicon glyphicon-map-marker"></span></h2>
+                </div>
+
+                <!-- Panel Body -->
+                <div class="panel-body">
+
+                    <!-- Creates Form (novalidate disables HTML validation, Angular will control) -->
+                    <form name ="addForm" novalidate>
+
+                        <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
+                        <div class="form-group">
+                            <label for="username">Name <span class="badge">All fields required</span></label>
+                            <input type="text" class="form-control" id="username" placeholder="project name" ng-model="formData.name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="language">City</label>
+                            <input type="text" class="form-control" id="language" placeholder="city name" ng-model="formData.city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" class="form-control" id="latitude" placeholder="latitude coordinate" ng-model="formData.latitude" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" class="form-control" id="longitude" placeholder="longitude coordinate" ng-model="formData.longitude" required>
+                        </div>
+
+                        <!-- Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.  -->
+                        <button type="submit" class="btn btn-danger btn-block" ng-click="createProject()" ng-disabled="addForm.$invalid">Submit</button>
+                        
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <!-- Panel Body -->
-        <div class="panel-body">
-
-            <!-- Creates Form (novalidate disables HTML validation, Angular will control) -->
-            <form name ="addForm" novalidate>
-
-                <!-- Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope -->
-                <div class="form-group">
-                    <label for="username">Name <span class="badge">All fields required</span></label>
-                    <input type="text" class="form-control" id="username" placeholder="project name" ng-model="formData.name" required>
-                </div>
-                <div class="form-group">
-                    <label for="language">City</label>
-                    <input type="text" class="form-control" id="language" placeholder="beijing" ng-model="formData.city" required>
-                </div>
-                <div class="form-group">
-                    <label for="latitude">Latitude</label>
-                    <input type="text" class="form-control" id="latitude" ng-model="formData.latitude">
-                </div>
-                <div class="form-group">
-                    <label for="longitude">Longitude</label>
-                    <input type="text" class="form-control" id="longitude" ng-model="formData.longitude">
-                </div>
-
-                <!-- Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.  -->
-                <button type="submit" class="btn btn-danger btn-block" ng-click="createProject()" ng-disabled="addForm.$invalid">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
-
 
       </div>
-    </div>
+    </div> <!-- end of container -->
 
     <div class="container">
+      <h1>Third Container</h1>
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4">

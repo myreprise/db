@@ -1,4 +1,11 @@
 body {
-  min-height: 2000px;
   padding-top: 50px;
+}
+.sidebar {
+    background-color: lightgrey;
+    box-shadow: -5px 0 10px #aaaaaa;
+}
+.toolbar {
+    padding: 2em 0 2em 0;
+    border-bottom: 1px solid grey;
 }

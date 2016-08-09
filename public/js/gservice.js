@@ -79,12 +79,19 @@ angular.module('gservice', [])
 		//If map has not been created...
 		if (!map){
 
-			//Create a new map and place in the index.html page
-			var map = new google.maps.Map(document.getElementById('map'), {
+			var styles1 = [{"featureType":"landscape","stylers":[{"hue":"#FFBB00"},{"saturation":43.400000000000006},{"lightness":37.599999999999994},{"gamma":1}]},{"featureType":"road.highway","stylers":[{"hue":"#FFC200"},{"saturation":-61.8},{"lightness":45.599999999999994},{"gamma":1}]},{"featureType":"road.arterial","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":51.19999999999999},{"gamma":1}]},{"featureType":"road.local","stylers":[{"hue":"#FF0300"},{"saturation":-100},{"lightness":52},{"gamma":1}]},{"featureType":"water","stylers":[{"hue":"#0078FF"},{"saturation":-13.200000000000003},{"lightness":2.4000000000000057},{"gamma":1}]},{"featureType":"poi","stylers":[{"hue":"#00FF6A"},{"saturation":-1.0989010989011234},{"lightness":11.200000000000017},{"gamma":1}]}];
+			var styles3 = [{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"water","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#C6E2FF"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"color":"#C5E3BF"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"color":"#D1D1B8"}]}];
+
+			var mapOptions = {
 				zoom: 5,
 				center: myLatLng,
-				scrollwheel: false
-			});
+				scrollwheel: false,
+				styles: styles3,
+				mapTypeId: 'satellite'
+			}
+
+			//Create a new map and place in the index.html page
+			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		}
 
 		//Loop through each location in the array and place a marker
@@ -102,6 +109,12 @@ angular.module('gservice', [])
 				//When clicked, open the selected marker's message
 				currentSelectedMarker = n;
 				n.message.open(map, marker);
+
+                // Update Broadcasted Variable (lets the panels know to change their lat, long values)
+                googleMapService.clickLat = marker.getPosition().lat();
+                googleMapService.clickLong = marker.getPosition().lng();
+                $rootScope.$broadcast("clicked");
+
 			});
 		});
 
