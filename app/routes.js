@@ -38,4 +38,54 @@ module.exports = function(app) {
             res.json(req.body);
         });
     });
+
+    // Retrieve JSON records for all projects that meet criteria
+    app.post('/query', function(req, res){
+
+        // Grab all query parameters from the body.
+        //----------------------------------------------
+        //NEED TO UPDATE AND HASH OUT THIS SEARCH FORM & PARAMETERS
+        var name = req.body.name;
+        var city = req.body.city;
+        var lat = req.body.latitude;
+        var long = req.body.longitude;
+        var distance = req.body.distance;
+        var developer = req.body.distance
+
+        //Open a generic Mongoose Query
+        var query = Project.find({});
+
+        if(distance){
+
+            // Using MongoDB's geospatial querying features. (Note how coordinates are set [long, lat]
+            query = query.where('location').near({ center: {type: 'Point', coordinates: [long, lat]},
+
+            // Converting meters to miles. Specifying spherical geometry (for globe)
+            maxDistance: distance * 1609.34, spherical: true});
+        }
+
+
+        //Other queries will go here...
+
+        //..such as filter by developer
+        if(developer){
+            query.where('developer').equals(developer);
+        }
+
+        //..or city filters
+        if(city){
+            query.where('city').equals(city);
+        }
+
+
+        // Execute Query and Return the Query Results
+        //If no errors, respond with a JSON of all projects that meet criteria
+        query.exec(function(err, projects){
+            if(err){
+                res.send(err);
+            } else {
+                res.json(projects)                
+            }
+        });
+    });
 };
